@@ -4,6 +4,7 @@
 #include <TH1D.h>
 #include <TApplication.h>
 #include <TMath.h>
+#include <TGraphErrors.h>
 
 using namespace std;
 
