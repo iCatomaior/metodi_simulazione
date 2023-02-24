@@ -30,8 +30,12 @@ int main(){
             nacc += 1;
             h->Fill(x);
         }
-
     }
+
+    //calcolo integrale
+    float area =  2*M_PI*float(nacc)/float(N_points);
+
+    cout << area << endl;
 
     h->Draw();
     app.Run(true);
