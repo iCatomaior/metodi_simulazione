@@ -25,7 +25,7 @@ int main(){
     //histogram
     TH1D *h = new TH1D("h","Gaussian distribution",n_bins,-4,4);
 
-    for (int i=0; i<N_points; i++ ){
+    for (int i=0; i<N_points; i++){
         eta_1 = rnd.Rndm();
         eta_2 = rnd.Rndm();
 
