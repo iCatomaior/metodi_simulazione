@@ -20,6 +20,7 @@ int main(){
     int n_bins  = 40;
     float eta_1 = 0;
     float eta_2 = 0;
+    
     float x = 0;
 
     //histogram
