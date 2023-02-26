@@ -18,10 +18,9 @@ int main(){
     //parameters
     int N_points = 1000000;
     int n_bins  = 40;
-    float eta_1 = 0;
-    float eta_2 = 0;
-    
-    float x = 0;
+    float eta_1;
+    float eta_2;
+    float x;
 
     //histogram
     TH1D *h = new TH1D("h","Gaussian distribution",n_bins,-4,4);

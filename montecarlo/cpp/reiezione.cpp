@@ -17,8 +17,8 @@ int main(){
     int nacc = 0;
 
     //Setting variables
-    float x = 0;
-    float y = 0;
+    float x;
+    float y;
     
     TH1D *h = new TH1D("h","Reiezione",n_bins,0,2*M_PI);
 

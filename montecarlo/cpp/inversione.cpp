@@ -13,10 +13,10 @@ int main(){
     TApplication app ("app",NULL,NULL);
 
 //setting parameters
-    int N_points = 10000;
-    int n_bins   = 20;
-    float eta = 0;
-    float x   = 0;
+    int N_points = 1000000;
+    int n_bins   = 40;
+    float eta;
+    float x;
     float alpha = 3;
 
 //setting number generator    

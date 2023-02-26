@@ -1,1 +1,1 @@
-g++  --std=c++11 -o main main.cpp `root-config --cflags --glibs`
+g++ -o out file.cpp `root-config --cflags --glibs`
