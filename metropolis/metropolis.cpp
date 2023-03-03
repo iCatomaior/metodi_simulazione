@@ -4,7 +4,6 @@
 #include <TRandom3.h>
 #include <TCanvas.h>
 #include <TGraph.h>
-#include <TAxis.h>
 
 using namespace std;
 
@@ -47,23 +46,7 @@ int main(){
 
     }
 
-//check che il numero di particelle sia quello che previsto
-    N_acc =0;
-
-    for (int i=0; i<L; i++){
-        for (int j=0; j<L; j++){
-                if(matrix[i][j]==1){
-                    N_acc++;
-                }
-            }
-        }
-    
-    if (N_acc!=N_particles){
-        cerr << "Numero di particelle errato" <<endl;
-        cout << "Counter " << N_acc << endl;
-        return 1;
-    }
-
+//plotting
 
     TGraph* g1 = new TGraph();
     TGraph* g2 = new TGraph();
@@ -79,13 +62,12 @@ int main(){
             if (matrix[i][j]==1){
                 g1->SetMarkerStyle(20);
                 g1->SetMarkerSize(marker_size);
-                g1->SetPoint(c, i, j);
+                g1->SetPoint(c, i+1, j+1);
                 c++;
-
             }  else{
                 g2->SetMarkerStyle(24);
                 g2->SetMarkerSize(marker_size);
-                g2->SetPoint(c, i, j);
+                g2->SetPoint(c, i+1, j+1);
                 c++; 
              
             }
