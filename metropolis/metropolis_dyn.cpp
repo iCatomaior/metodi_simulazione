@@ -7,6 +7,7 @@
 
 using namespace std;
 
+//checking the number of particles
 void check(int** matrix, int size){
     int N_acc=0;
     int N_particles = size*size*0.5;
@@ -45,14 +46,13 @@ int main(){
     uniform_int_distribution range(0,L-1);    
 
 //inizializzazione griglia
-    //int matrix[L][L]={};
     int ** matrix = new int*[L];
 
     for (int i=0; i<L; i++){
         matrix[i]= new int[L];
     }
 
-    //inizializzazione valori
+//inizializzazione valori
     for (int i=0; i<L; i++){
         for (int j=0; j<L; j++){
             matrix[i][j] = 0;
@@ -80,7 +80,6 @@ int main(){
     check(matrix,L);
 
 //plotting
-
     TGraph* g1 = new TGraph();
     TGraph* g2 = new TGraph();
 
