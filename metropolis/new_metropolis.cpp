@@ -1,6 +1,6 @@
 #include <iostream>
-#include <cmath>
 #include <random>
+#include "TMath.h"
 #include <TApplication.h>
 #include <TRandom.h>
 #include <TRandom3.h>
@@ -10,9 +10,10 @@
 using namespace std;
 
 //parametri fisici del problema
-double T = 300;
-const double kb = 1.38*10e-23;
-double J = 1;
+double J = 5;
+
+//inizializzazione generatore tra 0 e 1
+TRandom3 rnd(123456789);
 
 //checking the number of particles
 void check(int** matrix, int size){
@@ -34,28 +35,55 @@ if (N_acc!=N_particles){
 }
 
 double Energy(int **matrix, int L, int x, int y){
+    
     double energy;
-
     energy = J*(matrix[(x+1)%L][y]+matrix[abs(x-1)%L][y]+matrix[x][(y+1)%L]+matrix[x][abs(y-1)%L]);
-
     return energy;
 }
 
+
+int **Evolve (int **matrix, int L, int x, int y){
+        int x_f=x;  int y_f=y;
+        double E_f, p;
+        double E_i = Energy(matrix,L,x,y);
+        int n = rnd.Rndm();
+
+        if (n<0.25){
+            y_f=abs(y+1)%L;
+
+        } else if (n<0.5){
+            y_f=abs(y-1)%L;
+        
+        } else if (n<0.75){
+            x_f=abs(x+1)%L;
+        
+        } else {
+            x_f=abs(x-1)%L;
+        
+        }
+
+        if (matrix[x_f][y_f]==0){
+               
+            E_f = Energy(matrix, L, x_f, y_f);
+            p   = TMath::Exp(E_i-E_f);
+            n   = rnd.Rndm();
+
+            if(n<p){
+                matrix[x][y]=0;
+                matrix[x_f][y_f]=1;
+            }
+        }
+
+        return matrix;
+}
 
 
 int main(){
 
     TApplication app("app",NULL,NULL);
 
-//inizializzazione generatore tra 0 e 1
-    TRandom3 rnd;
-    rnd.SetSeed(123456789);
-
-//larghezza griglia
-    const int L = 2;
-
-//parametri
-    int N_particles = L*L/2;
+    const int L = 16;           //larghezza griglia
+    int N_particles = L*L/2;    //numero di particelle
 
 //inizializzazione griglia
     int ** matrix = new int*[L];
@@ -71,18 +99,16 @@ int main(){
         }
     }
 
-// variabili coordinate
-    int x,y;
-
-//variabile contatore
-    int N_acc = 0;
+    int x,y;        // variabili coordinate
+    int N_acc = 0;  //variabile contatore
 
 //riempimento griglia
     while(N_acc<N_particles) {
         x=rnd.Integer(L);
         y=rnd.Integer(L);
 
-        if (matrix[x][y]==0){
+        if (matrix[x][y] == 0){
+            
             matrix[x][y] = 1;
             N_acc++;
         }
@@ -91,42 +117,18 @@ int main(){
 //checking matrix
     check(matrix,L);
 
-//numero di step di montecarlo
 
-int NMC = 100;
-double E_i, E_f, delta, n;
-int x_f, y_f;
+int NMC = 1000000;    //numero di step di montecarlo
 
 for (int i=0; i<NMC; i++){
     x = rnd.Integer(L);
     y = rnd.Integer(L);
-    x_f = x;
-    y_f = y;
 
     if(matrix[x][y]==0){
         continue;
+    
     } else{
-        E_i = Energy(matrix,L,x,y);
-        n = rnd.Rndm();
-
-        if (n<0.25){
-            y_f=abs(y+1)%L;
-        } else if (n<0.5){
-            y_f=abs(y-1)%L;
-        } else if (n<0.75){
-            x_f=abs(x+1)%L;
-        } else {
-            x_f=abs(x-1)%L;
-        }
-
-        if (matrix[x_f][y_f]==1){
-            continue;
-        } else{
-            E_f = Energy(matrix, L, x_f, y_f);
-            delta = E_f - E_i;
-        }
-
-
+        matrix = Evolve(matrix,L,x,y);
     }
 
 }
