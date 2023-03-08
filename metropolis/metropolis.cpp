@@ -7,6 +7,18 @@
 
 using namespace std;
 
+double Energy(int L, int matrix){
+    int N_acc =0;
+    for (int i=0; i<L; i++){
+        for (int j=0; j<L; j++){
+            if (matrix[i][j]==1){
+                N_acc++;
+            }
+        }
+    }
+}
+
+
 int main(){
 
     TApplication app("app",NULL,NULL);
@@ -15,7 +27,7 @@ int main(){
     TRandom3 rnd;
     rnd.SetSeed(123456789);
 //larghezza griglia
-    const int L = 16;
+    const int L = 8;
 
 //parametri
     int N_particles = L*L/2;
@@ -46,6 +58,45 @@ int main(){
 
     }
 
+//parametri fisici del problema
+
+/* double T = 300;
+const double kb = 1.38*10e-23;
+double J = 10e-3;
+
+//numero di step di montecarlo
+
+int NMC = 1000;
+
+for (int i=0; i<NMC; i++){
+    x = range(gen);
+    y = range(gen);
+
+    if(matrix[x][y]==0){
+        continue;
+    } else{
+
+    }
+
+
+
+}
+ */
+
+cout << Energy(matrix,L) << endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
 //plotting
 
     TGraph* g1 = new TGraph();
@@ -53,22 +104,25 @@ int main(){
 
     int marker_size = 2;
 
+
+    g1->SetMarkerStyle(20);
+    g1->SetMarkerSize(marker_size);
+
     g2->SetTitle("Gas reticolare");
+    g2->SetMarkerStyle(24);
+    g2->SetMarkerSize(marker_size);
 
     int c = 0;
+    int d = 0;
 
     for(int i=0; i<L; i++){
         for(int j=0; j<L; j++){
             if (matrix[i][j]==1){
-                g1->SetMarkerStyle(20);
-                g1->SetMarkerSize(marker_size);
                 g1->SetPoint(c, i+1, j+1);
                 c++;
             }  else{
-                g2->SetMarkerStyle(24);
-                g2->SetMarkerSize(marker_size);
-                g2->SetPoint(c, i+1, j+1);
-                c++; 
+                g2->SetPoint(d, i+1, j+1);
+                d++; 
              
             }
         }
@@ -82,3 +136,4 @@ int main(){
  
     return 0;
 }
+
