@@ -91,11 +91,11 @@ int main(){
 
 //numero di step di montecarlo
 
-int NMC = 10000000;
+int NMC = 10000;
 double E_i, E_f, delta, p, n;
 int x_f, y_f;
 
-for (int i=0; i<NMC; i++){
+for (int i=0; i<NMC*N_particles; i++){
     x = rnd.Integer(L);
     y = rnd.Integer(L);
     x_f = x;
@@ -187,3 +187,4 @@ for (int i=0; i<NMC; i++){
 
     return 0;
 }
+

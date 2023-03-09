@@ -1,15 +1,18 @@
-fare un doppio loop
+# Progettazione del codice
 
-loop sui montecarlo step from 1 --> NMC //loop esterno
+Bisogna fare un doppio loop
 
-* all'interno di ciascun montecarlo step si fanno tanti tentativi di mossa quante sono le particelle 
+* Un loop sugli step di montecarlo (da 1 a NMC) //loop esterno
 
-*    ==> Il numero di estrazioni nella catena di markov è NMC * N
+* All'interno di ciascun montecarlo step si fanno tanti tentativi di mossa quante sono le particelle 
+
+* Il numero di estrazioni nella catena di markov è NMC * N
     
-*mossa : scelgo una direzione a caso e valuto lo spostamento
-        * se è occupato rifiuto lo spostamento
-        * se è vuoto valuto con metropolis
-    tenere conto delle condizoni periodiche al contorno
+* mossa : scelgo una direzione a caso e valuto lo spostamento
+* se è occupato rifiuto lo spostamento
+* se è vuoto valuto con metropolis
+
+Bisogna tenere conto delle condizoni periodiche al contorno
 
 # Codice
 
