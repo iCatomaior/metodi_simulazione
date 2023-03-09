@@ -1,11 +1,8 @@
 #include <iostream>
-#include <random>
 #include "TMath.h"
-#include <TApplication.h>
-#include <TRandom.h>
-#include <TRandom3.h>
-#include <TCanvas.h>
-#include <TGraph.h>
+#include "TApplication.h"
+#include "TRandom3.h"
+#include "TGraph.h"
 
 using namespace std;
 
@@ -33,13 +30,9 @@ if (N_acc!=N_particles){
 
 double Energy(int **matrix, int L, int x, int y){
     double energy;
-
     energy = J*(matrix[(x+1)%L][y]+matrix[abs(x-1)%L][y]+matrix[x][(y+1)%L]+matrix[x][abs(y-1)%L]);
-
     return energy;
 }
-
-
 
 int main(){
 
@@ -56,7 +49,7 @@ int main(){
     int N_particles = L*L/2;
 
 //inizializzazione griglia
-    int ** matrix = new int*[L];
+    int **matrix = new int*[L];
 
     for (int i=0; i<L; i++){
         matrix[i]= new int[L];
@@ -92,19 +85,19 @@ int main(){
 //numero di step di montecarlo
 
 int NMC = 10000;
-double E_i, E_f, delta, p, n;
-int x_f, y_f;
 
 for (int i=0; i<NMC*N_particles; i++){
     x = rnd.Integer(L);
     y = rnd.Integer(L);
-    x_f = x;
-    y_f = y;
 
     if(matrix[x][y]==0){
         continue;
     
     } else{
+        double E_i, E_f, delta, p, n;
+
+        int x_f = x;
+        int y_f = y;
         E_i = Energy(matrix,L,x,y);
         n = rnd.Rndm();
 
@@ -122,9 +115,8 @@ for (int i=0; i<NMC*N_particles; i++){
         
         }
 
-        if (matrix[x_f][y_f]==1){
-            continue;
-        } else{
+        if (matrix[x_f][y_f]==0){
+        
             E_f = Energy(matrix, L, x_f, y_f);
             p   = TMath::Exp(E_i-E_f);
             n   = rnd.Rndm();
@@ -134,10 +126,7 @@ for (int i=0; i<NMC*N_particles; i++){
                 matrix[x_f][y_f]=1;
             }
         }
-
-
     }
-
 }
 
 //plotting
