@@ -8,7 +8,7 @@
 using namespace std;
 
 //parametri fisici del problema
-double J=3;
+double J=5;
 
 //generatore
 TRandom3 rnd(123456789);
@@ -32,7 +32,7 @@ if (N_acc!=N_particles){
     }
 }
 
-double Energy(int **matrix, int L, int x, int y){
+double Energy (int **matrix, int L, int x, int y){
     
     double energy;
     energy = J*(matrix[(x+1+L)%L][y]+matrix[(x-1+L)%L][y]+matrix[x][(y+1+L)%L]+matrix[x][(y-1+L)%L]);
@@ -88,7 +88,7 @@ int main(){
 
     TApplication app("app",NULL,NULL);
 
-    const int L = 16;           //larghezza griglia
+    const int L = 64;           //larghezza griglia
     int N_particles = L*L/2;    //numero di particelle
 
 //inizializzazione griglia
@@ -123,7 +123,7 @@ int main(){
     check(matrix,L);
 
 
-int NMC = 1000;    //numero di step di montecarlo
+int NMC = 100000;    //numero di step di montecarlo
 
 for (int i=0; i<NMC; i++){
     for (int j=0; j<N_particles; j++){
