@@ -5,8 +5,6 @@
 #include "TCanvas.h"
 #include "TGraph.h"
 
-using namespace std;
-
 //parametri fisici del problema
 double J=5;
 
@@ -27,7 +25,7 @@ void check(int** matrix, int size){
     }
 
 if (N_acc!=N_particles){
-        cerr << "Il numero di particelle è errato!!" <<endl;
+        std::cerr << "Il numero di particelle è errato!!" <<std::endl;
         exit(1);
     }
 }
@@ -83,12 +81,11 @@ void Evolve (int **matrix, int L, int x, int y){
         }
     }
 
-
 int main(){
 
     TApplication app("app",NULL,NULL);
 
-    const int L = 64;           //larghezza griglia
+    const int L = 20;           //larghezza griglia
     int N_particles = L*L/2;    //numero di particelle
 
 //inizializzazione griglia
@@ -123,7 +120,9 @@ int main(){
     check(matrix,L);
 
 
-int NMC = 100000;    //numero di step di montecarlo
+int NMC = 10000;    //numero di step di montecarlo
+double ord_par;
+double P_a, P_b;
 
 for (int i=0; i<NMC; i++){
     for (int j=0; j<N_particles; j++){
@@ -133,8 +132,30 @@ for (int i=0; i<NMC; i++){
         if(matrix[x][y]==1){
             Evolve(matrix,L,x,y); 
         }
-    }   
+    }
+ 
+    P_a = 0;
+    P_b = 0; 
+
+    for (int m=0; m<L; m++){
+        for (int n=0; n<L; n++){
+            if ((m+n)%2==0){
+                P_a += matrix[m][n];
+
+            } else{
+                P_b += matrix[m][n];
+
+            }
+           
+        }
+        
+    }
+    
+    std::cout << "Il parametro d'ordine è " << (P_a-P_b)/(P_a+P_b) << std::endl;
+
 }
+
+
 
 //checking matrix
     check(matrix,L);
@@ -181,6 +202,8 @@ for (int i=0; i<NMC; i++){
     }
 
     delete [] matrix;
+
+    delete g1, g2;
 
     return 0;
 }
