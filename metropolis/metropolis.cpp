@@ -124,6 +124,15 @@ int NMC = 10000;    //numero di step di montecarlo
 double ord_par;
 double P_a, P_b;
 
+//plot del parametro d'ordine
+TCanvas c1;
+TGraph *p = new TGraph();
+p->SetTitle("Parametro d'ordine");
+p->SetMarkerSize(2);
+int c=0;
+
+
+
 for (int i=0; i<NMC; i++){
     for (int j=0; j<N_particles; j++){
         x = rnd.Integer(L);
@@ -146,21 +155,21 @@ for (int i=0; i<NMC; i++){
                 P_b += matrix[m][n];
 
             }
-           
+        
         }
         
     }
-    
-    std::cout << "Il parametro d'ordine è " << (P_a-P_b)/(P_a+P_b) << std::endl;
-
+    p->SetPoint(c, i, (P_a-P_b)/(P_a+P_b));
+    c++;
 }
 
-
+    p->Draw("AP");
 
 //checking matrix
     check(matrix,L);
 
 //plotting
+    TCanvas c2;
     
     TGraph* g1 = new TGraph();
     TGraph* g2 = new TGraph();
@@ -174,7 +183,7 @@ for (int i=0; i<NMC; i++){
     g2->SetMarkerStyle(24);
     g2->SetMarkerSize(marker_size);
 
-    int c = 0;
+    c = 0;
     int d = 0;
 
     for(int i=0; i<L; i++){
